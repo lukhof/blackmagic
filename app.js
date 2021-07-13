@@ -1,3 +1,3 @@
-document.onload = function () {
-    document.getElementById("header").innerText = "loaded"
+window.onload = function () {
+    document.getElementById("header").innerText = "loaded";
 }
