@@ -1,3 +1,3 @@
-document.onload = function (params) {
+document.onload = function () {
     document.getElementById("header").innerText = "loaded"
 }
