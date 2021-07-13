@@ -1,0 +1,67 @@
+#ifndef __AVR_ATtiny45__
+#define __AVR_ATtiny45__
+#endif
+#ifndef F_CPU
+#define F_CPU 8000000UL // or whatever may be your frequency
+#endif
+
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#include <avr/sleep.h>
+#include <util/delay.h> // for _delay_ms()
+
+void init()
+{ 
+    //init the input/output pins and set pullups
+    DDRB = 0b00011000;
+    PORTB = 0b00000011;
+    //init external interrupts
+    PCMSK = 0b00000011; //activate PCINT0 and PCINT1
+    GIMSK = 0b00100000; //activate PCIE interrupts
+    MCUCR = 0b00010010; //trigger falling edge / power down mode
+    //watchdog
+    WDTCR = 0b01001110;
+    //power saving
+    PRR = 0x0F;
+
+    PORTB |= 0b00011000;
+    _delay_ms(1000);
+    PORTB &= 0b11100111;
+    SREG = 0b10000000; //enable global interrupts
+}
+
+void _sei()
+{
+    SREG |= 0b10000000; //enable global interrupts
+}
+
+void _cli()
+{
+    SREG &= 0b01111111; //disable global interrupts
+}
+/*watchdog interrupt*/
+/*ISR(WDT_vect)
+{
+    waitingCounter++;
+    //watchdog
+    WDTCR = 0b01001110;
+}*/
+
+/*external interrupt*/
+/*ISR(PCINT0_vect)
+{
+    _cli();
+
+    _sei();
+}*/
+
+int main(void)
+{
+
+    init();
+
+    while (1)
+    {
+        //sleep_mode();
+    }
+}
