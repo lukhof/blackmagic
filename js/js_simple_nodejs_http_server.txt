@@ -1,0 +1,17 @@
+var http = require('http');
+
+var server = http.createServer(function (req, res) {
+    switch (req.url) {
+        case '/':
+            res.writeHead(200);
+            res.end("hello");
+            break;
+    
+        default:
+            res.writeHead(404);
+            res.end("file not found");
+            break;
+    }
+}).listen(8080);
+
+console.log("server listening on ip: " + server.address().address + " port: " + server.address().port);
